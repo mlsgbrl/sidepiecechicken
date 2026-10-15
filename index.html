@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Side Piece Chicken</title>
+<meta name="description" content="Side Piece Chicken: wings, nachos, and tenders from a food truck in Albany, Georgia. Find the truck this week or book us for your event.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo:wght@400;500;700&family=DM+Mono:wght@500&display=swap">
+<style>
+/* Layout: food-truck signage. Mustard sign band up top, menu board below, schedule + booking side by side. */
+:root{
+  --sign:#F5C22B;      /* mustard sign paint */
+  --ink:#1E1915;       /* fryer-black lettering */
+  --sauce:#C8341E;     /* hot sauce red */
+  --bg:#FBF8F2;
+  --panel:#FFFFFF;
+  --muted:#6A6058;
+  --line:#E4DCCF;
+  --todo-bg:#FFF2B8;
+  --display:"Bowlby One","Arial Black",Impact,sans-serif;
+  --body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --sign:#E8B21C;--ink:#F3ECE2;--sauce:#F0644A;--bg:#161210;--panel:#211B17;--muted:#B3A698;--line:#382F28;--todo-bg:#4A3B10;color-scheme:dark}}
+:root[data-theme="dark"]{--sign:#E8B21C;--ink:#F3ECE2;--sauce:#F0644A;--bg:#161210;--panel:#211B17;--muted:#B3A698;--line:#382F28;--todo-bg:#4A3B10;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sauce);outline-offset:3px}
+.todo{background:var(--todo-bg);border:1px dashed var(--muted);border-radius:4px;padding:0 .3em;font-style:normal}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.logo{font-family:var(--display);font-size:1.15rem;text-decoration:none;letter-spacing:.01em}
+.logo span{color:var(--sauce)}
+.bar nav{display:flex;gap:18px;font-weight:500;font-size:.95rem}
+.bar nav a{text-decoration:none}
+.bar nav a:hover{color:var(--sauce)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:700;font-size:1rem;border:2px solid var(--ink);border-radius:999px;padding:.6em 1.2em;text-decoration:none;cursor:pointer;background:transparent;color:var(--ink)}
+.btn.solid{background:var(--sauce);border-color:var(--sauce);color:#fff}
+.btn:hover{transform:translateY(-1px)}
+@media (max-width:640px){.bar nav{display:none}}
+
+/* hero: the truck sign */
+.sign{background:var(--sign);color:#1E1915}
+.sign .wrap{padding-block:56px 48px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:end}
+.eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
+.sign h1{font-size:clamp(2.8rem,8vw,5.6rem);margin-top:10px}
+.sign h1 em{font-style:normal;color:#A3240F}
+.sign p.lede{font-size:1.15rem;max-width:34ch;margin:16px 0 24px}
+.sign .btn{border-color:#1E1915;color:#1E1915}
+.sign .btn.solid{background:#1E1915;color:var(--sign);border-color:#1E1915}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.today{background:#1E1915;color:#F5EEDF;border-radius:14px;padding:20px 22px}
+.today .eyebrow{color:var(--sign)}
+.today .where{font-family:var(--display);font-size:1.6rem;margin:8px 0 4px;line-height:1.1}
+.today dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:14px 0 0;font-size:.95rem}
+.today dt{color:#B9AE9F}
+.today dd{margin:0}
+.today .todo{color:#1E1915}
+@media (max-width:760px){.sign .wrap{grid-template-columns:1fr;padding-block:36px}}
+
+section{padding-block:64px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.sec-head h2{font-size:clamp(2rem,5vw,3rem)}
+.sec-head p{color:var(--muted);margin:0;max-width:48ch}
+
+/* menu board */
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.col h3{font-size:1.25rem;color:var(--sauce);margin-bottom:10px}
+.item{display:flex;align-items:baseline;gap:8px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:0}
+.item .name{font-weight:500}
+.item .dots{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-4px)}
+.item .price{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.note{margin-top:16px;font-size:.9rem;color:var(--muted)}
+@media (max-width:860px){.board{grid-template-columns:1fr}}
+
+.loyal{margin-top:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:2px solid var(--ink);border-radius:14px;padding:18px 22px}
+.punch{display:flex;gap:6px}
+.punch i{width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);display:block}
+.punch i.on{background:var(--sauce);border-color:var(--sauce)}
+.loyal p{margin:0;flex:1;min-width:200px}
+
+/* schedule + booking */
+.split{display:grid;grid-template-columns:1fr 1.15fr;gap:28px;align-items:start}
+@media (max-width:860px){.split{grid-template-columns:1fr}}
+.week{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.day{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.day:last-child{border-bottom:0}
+.day b{font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;font-size:.85rem}
+.day .hrs{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+.day.off{color:var(--muted)}
+
+form{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+form .full{grid-column:1/-1}
+label{display:grid;gap:6px;font-weight:500;font-size:.92rem;min-width:0}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:.65em .8em;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--sauce);outline:none}
+textarea{min-height:96px;resize:vertical}
+@media (max-width:520px){form{grid-template-columns:1fr}}
+.sent{grid-column:1/-1;background:var(--sign);color:#1E1915;border-radius:10px;padding:12px 14px;font-weight:500}
+
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--muted);font-size:.92rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer strong{color:var(--ink);font-family:var(--display);font-weight:400}
+
+.preview-flag{background:var(--ink);color:var(--bg);font-size:.85rem}
+.preview-flag .wrap{padding-block:8px}
+@media (prefers-reduced-motion:reduce){.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+
+
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="#top">Side Piece <span>Chicken</span></a>
+    <nav aria-label="Main">
+      <a href="#menu">Menu</a>
+      <a href="#find">Find the truck</a>
+      <a href="#book">Catering</a>
+    </nav>
+    <a class="btn solid" href="#book">Book us</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="sign">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Food truck · Albany, Georgia</div>
+        <h1>Wings worth <em>chasing</em> down.</h1>
+        <p class="lede">Wings, nachos, tenders and fried pickles, cooked to order out of the window of our truck.</p>
+        <div class="cta-row">
+          <a class="btn solid" href="#find">Where we are this week</a>
+          <a class="btn" href="#book">Cater your event</a>
+        </div>
+      </div>
+      <aside class="today" aria-label="Next stop">
+        <div class="eyebrow">Next stop</div>
+        <div class="where"><span class="todo">Location name</span></div>
+        <div><span class="todo">Street address, Albany, GA</span></div>
+        <dl>
+          <dt>When</dt><dd><span class="todo">Friday, 11am – 7pm</span></dd>
+          <dt>Call</dt><dd><span class="todo">(229) 000-0000</span></dd>
+          <dt>Follow</dt><dd><span class="todo">@facebook / @instagram</span></dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+
+  <section id="menu">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>The menu</h2>
+        <p>Prices from the current website. <span class="todo">Confirm items, prices and wing flavors.</span></p>
+      </div>
+      <div class="board">
+        <div class="col">
+          <h3>Starters</h3>
+          <div class="item"><span class="name">Chicken Wings</span><span class="dots"></span><span class="price">$12.00</span></div>
+          <div class="item"><span class="name">Nachos</span><span class="dots"></span><span class="price">$10.00</span></div>
+          <div class="item"><span class="name">Chicken Fries</span><span class="dots"></span><span class="price">$8.00</span></div>
+          <div class="item"><span class="name">Onion Rings</span><span class="dots"></span><span class="price">$7.50</span></div>
+          <div class="item"><span class="name">Fried Pickles</span><span class="dots"></span><span class="price">$6.00</span></div>
+        </div>
+        <div class="col">
+          <h3>Plates</h3>
+          <div class="item"><span class="name">Hot Wing Combo</span><span class="dots"></span><span class="price">$10.00</span></div>
+          <div class="item"><span class="name">Chicken Tenders</span><span class="dots"></span><span class="price">$11.00</span></div>
+          <div class="item"><span class="name">Chicken Sandwich</span><span class="dots"></span><span class="price">$9.50</span></div>
+          <div class="item"><span class="name">Hot Dogs</span><span class="dots"></span><span class="price">$8.00</span></div>
+          <p class="note">Wing flavors: <span class="todo">list his sauces here</span></p>
+        </div>
+        <div class="col">
+          <h3>Drinks &amp; snacks</h3>
+          <div class="item"><span class="name">Lemonade</span><span class="dots"></span><span class="price">$3.00</span></div>
+          <div class="item"><span class="name">Iced Tea</span><span class="dots"></span><span class="price">$2.75</span></div>
+          <div class="item"><span class="name">Coca-Cola</span><span class="dots"></span><span class="price">$2.50</span></div>
+          <div class="item"><span class="name">Water</span><span class="dots"></span><span class="price">$1.50</span></div>
+          <div class="item"><span class="name">Snacks</span><span class="dots"></span><span class="price">$1–2</span></div>
+        </div>
+      </div>
+      <div class="loyal">
+        <div class="punch" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+        <p><strong>Loyalty deal:</strong> your 5th visit comes with a discount. Ask at the window. <span class="todo">How much off?</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="find" style="padding-top:0">
+    <div class="wrap split">
+      <div>
+        <div class="sec-head"><h2>Find the truck</h2></div>
+        <div class="week" role="list">
+          <div class="day" role="listitem"><b>Mon</b><span class="todo">Spot</span><span class="hrs">—</span></div>
+          <div class="day" role="listitem"><b>Tue</b><span class="todo">Spot</span><span class="hrs">—</span></div>
+          <div class="day" role="listitem"><b>Wed</b><span class="todo">Spot</span><span class="hrs">—</span></div>
+          <div class="day" role="listitem"><b>Thu</b><span class="todo">Spot</span><span class="hrs">—</span></div>
+          <div class="day" role="listitem"><b>Fri</b><span class="todo">Spot</span><span class="hrs">—</span></div>
+          <div class="day" role="listitem"><b>Sat</b><span class="todo">Spot</span><span class="hrs">—</span></div>
+          <div class="day off" role="listitem"><b>Sun</b><span>Closed</span><span class="hrs"></span></div>
+        </div>
+        <p class="note">Schedule changes get posted on <span class="todo">Facebook</span> first.</p>
+      </div>
+
+      <div id="book">
+        <div class="sec-head">
+          <h2>Book the truck</h2>
+          <p>Birthdays, office lunches, church events, games. Tell us about it and we'll get back to you.</p>
+        </div>
+        <form id="bookForm" novalidate>
+          <label>Your name<input id="f-name" name="name" required autocomplete="name"></label>
+          <label>Phone<input id="f-phone" name="phone" type="tel" required autocomplete="tel"></label>
+          <label>Event date<input id="f-date" name="date" type="date"></label>
+          <label>Guests<select id="f-guests" name="guests"><option>Under 25</option><option selected>25–50</option><option>50–100</option><option>100+</option></select></label>
+          <label class="full">Event address or venue<input id="f-where" name="where" placeholder="Albany, Leesburg, Dawson…"></label>
+          <label class="full">Anything else?<textarea id="f-notes" name="notes" placeholder="Type of event, time, menu ideas"></textarea></label>
+          <div class="full"><button class="btn solid" type="submit">Send request</button> <span class="note">Minimum order: <span class="todo">$___</span></span></div>
+          <div class="sent" id="sent" hidden></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Side Piece Chicken</strong><br>Albany, Georgia</div>
+    <div><span class="todo">(229) 000-0000</span> · <span class="todo">email@sidepiecechicken.com</span></div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('bookForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = document.getElementById('f-name').value.trim();
+  var phone = document.getElementById('f-phone').value.trim();
+  var out = document.getElementById('sent');
+  if(!name || !phone){ out.textContent = 'Add your name and phone so we can reach you.'; out.hidden = false; return; }
+  out.textContent = 'Thanks, ' + name + '. In this draft the form is not connected yet. On the live site it will text or email the request to the truck.';
+  out.hidden = false;
+});
+</script>
+</body>
+</html>
