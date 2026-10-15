@@ -217,6 +217,12 @@ footer .logo{font-size:1.8rem;color:var(--ink)}
   .anim .hero-pic img,.anim .hero-art .ticket,.anim .hero h1,.anim .hero .eyebrow,.anim .hero .lede,.anim .hero .cta,.anim .hero h1 .wink{animation:none}
   .dish.settled:hover,.dish.settled:hover .price{transform:none}
 }
+/* hover wins once a card has landed */
+.dish:hover{transform:translateY(-8px) rotate(-.6deg);border-color:var(--pink);box-shadow:0 22px 44px rgba(227,38,27,.28)}
+.anim .dish.reveal.in.settled{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;transition-delay:0s}
+.anim .dish.reveal.in.settled:hover{transform:translateY(-8px) rotate(-.6deg)}
+.anim .dish.reveal:not(.settled):hover{box-shadow:none}
+@media (prefers-reduced-motion:reduce){.dish:hover,.anim .dish.reveal.in.settled:hover{transform:none}}
 </style>
 </head>
 <body>
