@@ -167,6 +167,56 @@ textarea{min-height:96px;resize:vertical}
 footer{border-top:1px solid var(--line);padding-block:36px;color:var(--muted);font-size:.92rem}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:end}
 footer .logo{font-size:1.8rem;color:var(--ink)}
+
+/* ---------- motion ---------- */
+/* hero on load */
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(1.5deg)}}
+@keyframes dropIn{from{opacity:0;transform:translateY(30px) rotate(-6deg)}to{opacity:1;transform:rotate(-2deg)}}
+@keyframes popIn{0%{opacity:0;transform:scale(.7) rotate(-8deg)}70%{transform:scale(1.04) rotate(1deg)}100%{opacity:1;transform:none}}
+@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.anim .hero-pic img{animation:popIn .9s cubic-bezier(.2,.8,.2,1) both,bob 5s ease-in-out 1s infinite}
+.anim .hero-art .ticket{animation:dropIn .8s cubic-bezier(.2,.8,.2,1) .5s both}
+.anim .hero h1,.anim .hero .eyebrow,.anim .hero .lede,.anim .hero .cta{animation:riseIn .7s cubic-bezier(.2,.8,.2,1) both}
+.anim .hero h1{animation-delay:.1s}.anim .hero .lede{animation-delay:.25s}.anim .hero .cta{animation-delay:.4s}
+.anim .hero h1 .wink{animation:popIn .7s cubic-bezier(.2,.8,.2,1) .7s both}
+
+/* scroll reveals (only when JS + motion are on) */
+.anim .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.anim .reveal.from-left{transform:translateX(-36px)}
+.anim .reveal.in{opacity:1;transform:none}
+
+/* menu cards: deal onto the table, then react to hover */
+.anim .dish.reveal{transform:translateY(48px) scale(.94) rotate(var(--r,-2deg))}
+.anim .dish.reveal.in{transform:none}
+.dish{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.dish.settled{transition-delay:0s}
+.dish.settled:hover{transform:translateY(-8px) rotate(-.6deg);border-color:var(--pink);box-shadow:0 22px 44px rgba(227,38,27,.28)}
+.dish .price{display:inline-block;transition:transform .25s ease,color .25s}
+.dish.settled:hover .price{transform:scale(1.15);color:var(--ink)}
+.dish .pic .tag{transition:transform .3s}
+.dish.settled:hover .pic .tag{animation:swing .6s ease}
+@keyframes swing{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}60%{transform:rotate(6deg)}}
+.pic::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);transform:translateX(-120%);pointer-events:none}
+.dish.settled:hover .pic::after{transition:transform .7s ease;transform:translateX(120%)}
+.anim .item.reveal{transform:translateX(-20px)}
+.anim .item.reveal.in{transform:none}
+
+/* sauces pop, punch card fills hole by hole */
+.anim .sauce.reveal{transform:scale(.6)}
+.anim .sauce.reveal.in{transform:none;transition-timing-function:cubic-bezier(.3,1.6,.5,1)}
+.sauce{transition:transform .2s}
+.sauce:hover{transform:translateY(-3px) rotate(-2deg)}
+.anim .loyal .punch i.on,.anim .loyal .punch i.star{background:transparent;transition:background .3s ease,transform .3s cubic-bezier(.3,1.6,.5,1)}
+.anim .loyal.in .punch i.on{background:var(--on-accent);transform:scale(1.1)}
+.anim .loyal.in .punch i.star{background:var(--pink);border-color:var(--pink);transform:scale(1.25)}
+.anim .loyal.in .punch i:nth-child(1){transition-delay:.5s}.anim .loyal.in .punch i:nth-child(2){transition-delay:.75s}
+.anim .loyal.in .punch i:nth-child(3){transition-delay:1s}.anim .loyal.in .punch i:nth-child(4){transition-delay:1.25s}
+.anim .loyal.in .punch i:nth-child(5){transition-delay:1.6s}
+
+@media (prefers-reduced-motion:reduce){
+  .anim .hero-pic img,.anim .hero-art .ticket,.anim .hero h1,.anim .hero .eyebrow,.anim .hero .lede,.anim .hero .cta,.anim .hero h1 .wink{animation:none}
+  .dish.settled:hover,.dish.settled:hover .price{transform:none}
+}
 </style>
 </head>
 <body>
@@ -341,6 +391,48 @@ document.getElementById('bookForm').addEventListener('submit', function(e){
   out.textContent = 'Thanks, ' + name + '. This draft form is not connected yet. On the live site it will send the request straight to the truck.';
   out.hidden = false;
 });
+/* motion: only when the browser supports it and the visitor hasn't asked for less */
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  document.documentElement.classList.add('anim');
+  function mark(sel, step, extra){
+    document.querySelectorAll(sel).forEach(function(el, i){
+      el.classList.add('reveal'); if (extra) el.classList.add(extra);
+      el.style.setProperty('--d', (i * step).toFixed(2) + 's');
+    });
+  }
+  mark('section .head', 0);
+  mark('.dishes .dish', 0.09);
+  document.querySelectorAll('.dishes .dish').forEach(function(el, i){ el.style.setProperty('--r', (i % 2 ? 2 : -2) + 'deg'); });
+  mark('.extras .col', 0.12);
+  mark('.extras .item', 0.05);
+  mark('.sauces .sauce', 0.08);
+  mark('.loyal', 0); mark('.credit, .note', 0);
+  mark('.week .day', 0.06, 'from-left');
+  mark('.book', 0.1);
+  mark('footer .wrap > div', 0.1);
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      var el = e.target; el.classList.add('in'); io.unobserve(el);
+      if (el.classList.contains('dish')) {
+        setTimeout(function(){ el.classList.add('settled'); }, 900 + parseFloat(getComputedStyle(el).getPropertyValue('--d') || 0) * 1000);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  /* gentle parallax on the logo */
+  var pic = document.querySelector('.hero-pic'), ticking = false;
+  if (pic) window.addEventListener('scroll', function(){
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function(){
+      var y = Math.min(window.scrollY, 600);
+      pic.style.transform = 'translateY(' + (y * 0.15).toFixed(1) + 'px)';
+      ticking = false;
+    });
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
